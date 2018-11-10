@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import java.util.*
 
-class MyAdapter(private val myDataset: MutableList<String>, private val dragListener: StartDragListener) :
+class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dragListener: StartDragListener) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>(), ItemTouchHelperAdapter {
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
@@ -20,7 +20,7 @@ class MyAdapter(private val myDataset: MutableList<String>, private val dragList
         notifyItemMoved(fromPosition, toPosition)
     }
 
-    override fun onItemDismiss(position: Int) {
+    override fun onItemSwipe(position: Int) {
         myDataset.removeAt(position)
         notifyItemRemoved(position)
     }
@@ -30,7 +30,7 @@ class MyAdapter(private val myDataset: MutableList<String>, private val dragList
     // you provide access to all the views for a data item in a view holder.
     // Each data item is just a string in this case that is shown in a TextView.
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val textView : TextView = view.findViewById<TextView>(R.id.textView)
+        val textView : CheckBox = view.findViewById<CheckBox>(R.id.textView)
         val handle : ImageView = view.findViewById<ImageView>(R.id.handle)
     }
 
@@ -43,15 +43,6 @@ class MyAdapter(private val myDataset: MutableList<String>, private val dragList
             .inflate(R.layout.my_text_view, parent, false) as View
         // set the view's size, margins, paddings and layout parameters
 
-        val checkBox = view.findViewById<CheckBox>(R.id.textView)
-        checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked) {
-                buttonView.paintFlags = buttonView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            } else {
-                buttonView.paintFlags = buttonView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            }
-        }
-
         return MyViewHolder(view)
     }
 
@@ -60,7 +51,16 @@ class MyAdapter(private val myDataset: MutableList<String>, private val dragList
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-        holder.textView.text = myDataset[position]
+        holder.textView.text = myDataset[position].item.name
+        holder.textView.isChecked = myDataset[position].checked
+        holder.textView.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked) {
+                buttonView.paintFlags = buttonView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                buttonView.paintFlags = buttonView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
+            myDataset[position].checked = isChecked
+        }
 
         holder.handle.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
