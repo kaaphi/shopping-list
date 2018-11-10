@@ -1,15 +1,16 @@
 package com.kaaphi.shopping
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import java.util.*
 
 class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dragListener: StartDragListener) :
@@ -32,6 +33,7 @@ class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dr
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView : CheckBox = view.findViewById<CheckBox>(R.id.textView)
         val handle : ImageView = view.findViewById<ImageView>(R.id.handle)
+        val editButton : ImageButton = view.findViewById<ImageButton>(R.id.editItem)
     }
 
 
@@ -40,7 +42,7 @@ class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dr
                                     viewType: Int): MyAdapter.MyViewHolder {
         // create a new view
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.my_text_view, parent, false) as View
+            .inflate(R.layout.list_item_view, parent, false) as View
         // set the view's size, margins, paddings and layout parameters
 
         return MyViewHolder(view)
@@ -51,18 +53,36 @@ class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dr
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-        holder.textView.text = myDataset[position].item.name
-        holder.textView.isChecked = myDataset[position].checked
+        val itemView = myDataset[position];
+
+        holder.textView.text = itemView.label().toString()
+        holder.textView.isChecked = itemView.checked
         holder.textView.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked) {
                 buttonView.paintFlags = buttonView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             } else {
                 buttonView.paintFlags = buttonView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
-            myDataset[position].checked = isChecked
+            itemView.checked = isChecked
+        }
+        holder.editButton.setOnClickListener {
+            val editValue = EditText(holder.textView.context)
+            editValue.inputType = InputType.TYPE_CLASS_NUMBER
+            AlertDialog.Builder(holder.textView.context)
+                .setTitle("Enter Quantity")
+                .setView(editValue)
+                .setPositiveButton("OK") { _ : DialogInterface, _ : Int ->
+                    val quantity = editValue.text.toString()
+                    itemView.quantity = if(quantity.isNotEmpty()) quantity.toInt() else null
+                    holder.textView.text = itemView.label().toString()
+                }
+                .setNegativeButton("Cancel") { dialog: DialogInterface, _: Int ->
+                    dialog.cancel()
+                }
+                .show()
         }
 
-        holder.handle.setOnTouchListener { v, event ->
+        holder.handle.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 dragListener.requestDrag(holder);
             }

@@ -1,7 +1,6 @@
 package com.kaaphi.shopping
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
         touchHelper.attachToRecyclerView(recyclerView)
     }
 
-    fun clearChecked(view: View) {
+    fun clearChecked(view : View) {
         val checkedItems = myDataset
             .mapIndexed(::IndexedValue)
             .filter { v -> v.value.checked }
