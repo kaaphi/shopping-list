@@ -12,10 +12,11 @@ import android.widget.EditText
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), StartDragListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var touchHelper : ItemTouchHelper
     private val myDataset : MutableList<String> = mutableListOf("Item1", "Item2")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(myDataset)
+        viewAdapter = MyAdapter(myDataset, this)
 
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val callback = SimpleItemTouchHelperCallback(viewAdapter)
-        val touchHelper = ItemTouchHelper(callback)
+        touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(recyclerView)
     }
 
@@ -58,5 +59,9 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(intent)
         */
+    }
+
+    override fun requestDrag(viewHolder: RecyclerView.ViewHolder) {
+        touchHelper.startDrag(viewHolder)
     }
 }
