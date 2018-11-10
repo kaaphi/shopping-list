@@ -1,6 +1,4 @@
-package com.kaaphi.helloworld
-
-import android.support.v7.widget.RecyclerView
+package com.kaaphi.shopping
 
 interface ItemTouchHelperAdapter {
     fun onItemMove(fromPosition: Int, toPosition: Int)

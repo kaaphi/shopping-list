@@ -1,18 +1,14 @@
-package com.kaaphi.helloworld
+package com.kaaphi.shopping
 
 import android.annotation.SuppressLint
 import android.graphics.Paint
-import android.support.v4.view.MotionEventCompat
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import java.util.*
 

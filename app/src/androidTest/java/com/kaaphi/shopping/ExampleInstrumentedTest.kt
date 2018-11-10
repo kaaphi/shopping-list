@@ -1,4 +1,4 @@
-package com.kaaphi.helloworld
+package com.kaaphi.shopping
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

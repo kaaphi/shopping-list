@@ -1,4 +1,4 @@
-package com.kaaphi.helloworld
+package com.kaaphi.shopping
 
 import org.junit.Test
 
