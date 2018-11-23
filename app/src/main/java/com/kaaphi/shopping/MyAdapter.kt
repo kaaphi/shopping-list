@@ -6,24 +6,22 @@ import android.content.DialogInterface
 import android.graphics.Paint
 import android.support.v7.widget.RecyclerView
 import android.text.InputType
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import com.kaaphi.shopping.list.ListItemView
+import com.kaaphi.shopping.list.ShoppingList
 import java.util.*
 
-class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dragListener: StartDragListener) :
+class MyAdapter(private val shoppingList: ShoppingList, private val dragListener: StartDragListener) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>(), ItemTouchHelperAdapter {
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
-        Collections.swap(myDataset, fromPosition, toPosition)
+        Collections.swap(shoppingList.items, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
     }
 
     override fun onItemSwipe(position: Int) {
-        myDataset.removeAt(position)
+        shoppingList.items.removeAt(position)
         notifyItemRemoved(position)
     }
 
@@ -54,7 +52,7 @@ class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dr
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-        val itemView = myDataset[position];
+        val itemView = shoppingList.items[position];
 
         holder.textView.text = itemView.label().toString()
         holder.textView.isChecked = itemView.checked
@@ -69,18 +67,23 @@ class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dr
         holder.editButton.setOnClickListener {
             val editValue = EditText(holder.textView.context)
             editValue.inputType = InputType.TYPE_CLASS_NUMBER
-            AlertDialog.Builder(holder.textView.context)
+            val dialog = AlertDialog.Builder(holder.textView.context)
                 .setTitle("Enter Quantity")
                 .setView(editValue)
                 .setPositiveButton("OK") { _ : DialogInterface, _ : Int ->
                     val quantity = editValue.text.toString()
                     itemView.quantity = if(quantity.isNotEmpty()) quantity.toInt() else null
                     holder.textView.text = itemView.label().toString()
+                    notifyItemChanged(shoppingList.items.indexOf(itemView))
                 }
                 .setNegativeButton("Cancel") { dialog: DialogInterface, _: Int ->
                     dialog.cancel()
                 }
-                .show()
+                .create()
+
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+            dialog.show()
         }
 
         holder.handle.setOnTouchListener { _, event ->
@@ -92,5 +95,5 @@ class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dr
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = myDataset.size
+    override fun getItemCount() = shoppingList.items.size
 }

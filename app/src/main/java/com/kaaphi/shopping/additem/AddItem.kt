@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -41,7 +42,7 @@ class AddItem : AppCompatActivity() {
 
         val intent = Intent()
 
-        intent.putExtra(ITEM_KEY, item)
+        intent.putExtra(ITEM_KEY, item as Parcelable)
 
         setResult(Activity.RESULT_OK, intent)
         finish()

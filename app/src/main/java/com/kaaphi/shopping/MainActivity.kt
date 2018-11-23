@@ -12,6 +12,8 @@ import android.view.View
 import com.kaaphi.shopping.additem.AddItem
 import com.kaaphi.shopping.list.ListItem
 import com.kaaphi.shopping.list.ListItemView
+import com.kaaphi.shopping.list.ShoppingList
+import com.kaaphi.shopping.list.ShoppingListPersister
 
 const val ADD_ITEM_REQUEST  = 0;
 
@@ -20,17 +22,21 @@ class MainActivity : AppCompatActivity(), StartDragListener {
     private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var touchHelper : ItemTouchHelper
-    private val myDataset : MutableList<ListItemView> = IntRange(1,5).map { idx -> "Item $idx" }
+    private lateinit var shoppingList : ShoppingList
+
+        /*ShoppingList("Default List", IntRange(1,5).map { idx -> "Item $idx" }
         .map { name -> ListItem(name) }
         .map{ item -> ListItemView(item) }
-        .toMutableList()
+        .toMutableList())*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        shoppingList = ShoppingListPersister.loadList(applicationContext, "Default List")
+
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(myDataset, this)
+        viewAdapter = MyAdapter(shoppingList, this)
 
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -45,17 +51,20 @@ class MainActivity : AppCompatActivity(), StartDragListener {
 
         }
 
+        viewAdapter.registerAdapterDataObserver(object : AllChangesAdapterDataObserver() {
+            override fun onChanged() {
+                Log.i("onChanged", "changed!")
+                ShoppingListPersister.save(applicationContext, shoppingList)
+            }
+        })
+
         val callback = SimpleItemTouchHelperCallback(viewAdapter)
         touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(recyclerView)
     }
 
     fun clearChecked(view : View) {
-        val checkedItems = myDataset
-            .mapIndexed(::IndexedValue)
-            .filter { v -> v.value.checked }
-
-        myDataset.removeAll(checkedItems.map { item -> item.value })
+        shoppingList.clearCheckedItems()
 
         viewAdapter.notifyDataSetChanged()
     }
@@ -70,8 +79,8 @@ class MainActivity : AppCompatActivity(), StartDragListener {
 
         if((requestCode == ADD_ITEM_REQUEST) and (resultCode == Activity.RESULT_OK)) {
             val item : ListItem = data!!.getParcelableExtra(AddItem.ITEM_KEY)
-            myDataset.add(ListItemView(item))
-            viewAdapter.notifyItemInserted(myDataset.size)
+            shoppingList.items.add(ListItemView(item))
+            viewAdapter.notifyItemInserted(shoppingList.items.size)
         }
     }
 
