@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.kaaphi.shopping.list.ListItemView
 import java.util.*
 
 class MyAdapter(private val myDataset: MutableList<ListItemView>, private val dragListener: StartDragListener) :

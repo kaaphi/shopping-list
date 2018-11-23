@@ -7,8 +7,11 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.View
 import com.kaaphi.shopping.additem.AddItem
+import com.kaaphi.shopping.list.ListItem
+import com.kaaphi.shopping.list.ListItemView
 
 const val ADD_ITEM_REQUEST  = 0;
 
@@ -66,8 +69,8 @@ class MainActivity : AppCompatActivity(), StartDragListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         if((requestCode == ADD_ITEM_REQUEST) and (resultCode == Activity.RESULT_OK)) {
-            val itemName = data!!.getStringExtra("itemName")
-            myDataset.add(ListItemView(ListItem(itemName)))
+            val item : ListItem = data!!.getParcelableExtra(AddItem.ITEM_KEY)
+            myDataset.add(ListItemView(item))
             viewAdapter.notifyItemInserted(myDataset.size)
         }
     }

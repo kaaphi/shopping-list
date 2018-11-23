@@ -7,13 +7,15 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import com.kaaphi.shopping.ListItem
 import com.kaaphi.shopping.R
 import android.support.v4.app.NavUtils
-
-
+import com.kaaphi.shopping.list.ListItem
 
 class AddItem : AppCompatActivity() {
+
+    companion object {
+        const val ITEM_KEY = "item"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +37,11 @@ class AddItem : AppCompatActivity() {
     fun addItem(view : View) {
         val editText = findViewById<EditText>(R.id.itemName)
         val itemName = editText.text.toString()
+        val item = ListItem(itemName)
 
         val intent = Intent()
-        intent.putExtra("itemName", itemName)
+
+        intent.putExtra(ITEM_KEY, item)
 
         setResult(Activity.RESULT_OK, intent)
         finish()
