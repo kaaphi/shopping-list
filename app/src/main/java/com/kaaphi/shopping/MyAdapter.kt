@@ -81,7 +81,7 @@ class MyAdapter(private val shoppingList: ShoppingList, private val dragListener
                 }
                 .create()
 
-            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
             dialog.show()
         }
