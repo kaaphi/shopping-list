@@ -1,9 +1,12 @@
 package com.kaaphi.shopping.list
 
-import kotlinx.android.parcel.Parcelize
 import android.os.Parcelable
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
-data class ListItem(var name : String) : Parcelable, Serializable {
+@Serializable
+data class ListItem(
+    var name : String
+) : Parcelable {
 }

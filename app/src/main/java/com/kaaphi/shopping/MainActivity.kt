@@ -14,9 +14,11 @@ import com.kaaphi.shopping.list.ListItem
 import com.kaaphi.shopping.list.ListItemView
 import com.kaaphi.shopping.list.ShoppingList
 import com.kaaphi.shopping.list.ShoppingListPersister
+import kotlinx.serialization.ImplicitReflectionSerializer
 
 const val ADD_ITEM_REQUEST  = 0;
 
+@ImplicitReflectionSerializer
 class MainActivity : AppCompatActivity(), StartDragListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: MyAdapter

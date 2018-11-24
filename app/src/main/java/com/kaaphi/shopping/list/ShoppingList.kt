@@ -2,10 +2,14 @@ package com.kaaphi.shopping.list
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
 @Parcelize
-class ShoppingList (val name : String, val items : MutableList<ListItemView> = mutableListOf()) : Parcelable, Serializable {
+@Serializable
+class ShoppingList (
+    val name : String,
+    val items : MutableList<ListItemView> = mutableListOf()
+) : Parcelable {
     fun clearCheckedItems() {
         val checkedItems = items
             .mapIndexed(::IndexedValue)

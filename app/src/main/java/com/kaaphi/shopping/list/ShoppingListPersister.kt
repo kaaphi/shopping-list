@@ -2,15 +2,22 @@ package com.kaaphi.shopping.list
 
 import android.content.Context
 import android.util.Log
+import kotlinx.serialization.ImplicitReflectionSerializer
+import kotlinx.serialization.cbor.CBOR
+import kotlinx.serialization.dump
+import kotlinx.serialization.load
 import java.io.*
 
+@ImplicitReflectionSerializer
 object ShoppingListPersister {
     fun save(context : Context, list : ShoppingList) {
         val shoppingListFile = File(listDir(context), listFileName(list.name))
 
-        val output = ObjectOutputStream(FileOutputStream(shoppingListFile))
+        val bytes = CBOR.dump(list)
+
+        val output = FileOutputStream(shoppingListFile)
         output.use {
-            output.writeObject(list)
+            output.write(bytes)
         }
     }
 
@@ -34,9 +41,9 @@ object ShoppingListPersister {
     }
 
     private fun loadList(listFile : File) : ShoppingList {
-        val input = ObjectInputStream(FileInputStream(listFile))
+        val input = FileInputStream(listFile)
         input.use {
-            return input.readObject() as ShoppingList
+            return CBOR.load(input.readBytes())
         }
     }
 
