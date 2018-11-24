@@ -79,8 +79,8 @@ class MainActivity : AppCompatActivity(), StartDragListener {
 
         if((requestCode == ADD_ITEM_REQUEST) and (resultCode == Activity.RESULT_OK)) {
             val item : ListItem = data!!.getParcelableExtra(AddItem.ITEM_KEY)
-            shoppingList.items.add(ListItemView(item))
-            viewAdapter.notifyItemInserted(shoppingList.items.size)
+            shoppingList.items.add(0, ListItemView(item))
+            viewAdapter.notifyItemInserted(0)
         }
     }
 
