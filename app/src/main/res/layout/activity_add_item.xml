@@ -10,7 +10,7 @@
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="textCapWords"
             android:ems="10"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:id="@+id/itemName" android:layout_marginTop="16dp"
