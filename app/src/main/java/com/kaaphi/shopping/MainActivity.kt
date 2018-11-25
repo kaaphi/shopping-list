@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
             }
         }.execute()
 
-        recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
+        recyclerView = findViewById<RecyclerView>(R.id.shopping_list_view).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
