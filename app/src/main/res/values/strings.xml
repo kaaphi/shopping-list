@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Shopping List</string>
     <string name="clear_checked">Clear Checked Items</string>
     <string name="add_item">Add Item</string>
 </resources>
