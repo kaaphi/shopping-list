@@ -8,14 +8,15 @@ import android.support.v7.widget.RecyclerView
 import android.text.InputType
 import android.view.*
 import android.widget.*
-import com.kaaphi.shopping.list.ListItemView
 import com.kaaphi.shopping.list.ShoppingList
+import com.kaaphi.shopping.recycleview.ItemTouchHelperAdapter
+import com.kaaphi.shopping.recycleview.StartDragListener
 import java.util.*
 
-class MyAdapter(
+class ShoppingListTouchHelperAdapter(
     private val dragListener: StartDragListener
 ) :
-    RecyclerView.Adapter<MyAdapter.MyViewHolder>(), ItemTouchHelperAdapter {
+    RecyclerView.Adapter<ShoppingListTouchHelperAdapter.MyViewHolder>(), ItemTouchHelperAdapter {
 
     private var shoppingList: ShoppingList = ShoppingList("empty")
 
@@ -47,7 +48,7 @@ class MyAdapter(
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MyAdapter.MyViewHolder {
+                                    viewType: Int): ShoppingListTouchHelperAdapter.MyViewHolder {
         // create a new view
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item_view, parent, false) as View

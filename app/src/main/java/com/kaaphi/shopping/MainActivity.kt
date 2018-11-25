@@ -14,6 +14,8 @@ import com.kaaphi.shopping.list.ListItem
 import com.kaaphi.shopping.list.ListItemView
 import com.kaaphi.shopping.list.ShoppingList
 import com.kaaphi.shopping.list.ShoppingListPersister
+import com.kaaphi.shopping.recycleview.SimpleItemTouchHelperCallback
+import com.kaaphi.shopping.recycleview.StartDragListener
 import kotlinx.serialization.ImplicitReflectionSerializer
 
 const val ADD_ITEM_REQUEST  = 0;
@@ -23,7 +25,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
     private lateinit var persister: ShoppingListPersister
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: MyAdapter
+    private lateinit var viewAdapter: ShoppingListTouchHelperAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var touchHelper : ItemTouchHelper
     private lateinit var shoppingList : ShoppingList
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
         persister = ShoppingListPersister(applicationContext)
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(this)
+        viewAdapter = ShoppingListTouchHelperAdapter(this)
 
         object : PersistenceAsyncTask<Void, ShoppingList>(applicationContext, {args -> persister.loadList("Default List")}) {
             override fun onResult(result: ShoppingList) {

@@ -1,4 +1,4 @@
-package com.kaaphi.shopping
+package com.kaaphi.shopping.recycleview
 
 import android.support.v7.widget.RecyclerView
 

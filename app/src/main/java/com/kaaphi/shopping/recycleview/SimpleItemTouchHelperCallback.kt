@@ -1,24 +1,23 @@
-package com.kaaphi.shopping
+package com.kaaphi.shopping.recycleview
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.support.v7.widget.helper.ItemTouchHelper.Callback
+import com.kaaphi.shopping.recycleview.ItemTouchHelperAdapter
 
-class SimpleItemTouchHelperCallback(private val adapter : ItemTouchHelperAdapter) : Callback() {
+class SimpleItemTouchHelperCallback(
+    private val adapter : ItemTouchHelperAdapter,
+    var enableLongPressDrag : Boolean = false,
+    var enableSwipe : Boolean = true,
+    dragFlags : Int = ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+    swipeFlags : Int = ItemTouchHelper.START or ItemTouchHelper.END
+) : ItemTouchHelper.SimpleCallback(dragFlags, swipeFlags) {
 
     override fun isLongPressDragEnabled(): Boolean {
-        return false
+        return enableLongPressDrag
     }
 
     override fun isItemViewSwipeEnabled(): Boolean {
-        return true
-    }
-
-    override fun getMovementFlags(p0: RecyclerView, p1: RecyclerView.ViewHolder): Int {
-        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-
-        return makeMovementFlags(dragFlags, swipeFlags)
+        return enableSwipe
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {

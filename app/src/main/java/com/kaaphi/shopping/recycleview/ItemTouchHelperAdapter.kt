@@ -1,4 +1,4 @@
-package com.kaaphi.shopping
+package com.kaaphi.shopping.recycleview
 
 interface ItemTouchHelperAdapter {
     fun onItemMove(fromPosition: Int, toPosition: Int)
