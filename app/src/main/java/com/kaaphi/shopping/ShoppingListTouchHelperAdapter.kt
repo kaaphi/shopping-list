@@ -51,7 +51,7 @@ class ShoppingListTouchHelperAdapter(
                                     viewType: Int): ShoppingListTouchHelperAdapter.MyViewHolder {
         // create a new view
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_view, parent, false) as View
+            .inflate(R.layout.shopping_item_view, parent, false) as View
         // set the view's size, margins, paddings and layout parameters
 
         return MyViewHolder(view)
@@ -64,7 +64,7 @@ class ShoppingListTouchHelperAdapter(
             // - replace the contents of the view with that element
         val itemView = shoppingList.items[position];
 
-        holder.textView.text = itemView.label().toString()
+        holder.textView.text = itemView.label()
         holder.textView.isChecked = itemView.checked
         holder.textView.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked) {

@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 data class ListItem(
-    var name : String
+    var name : String,
+    var rank : Int? = null
 ) : Parcelable {
 }

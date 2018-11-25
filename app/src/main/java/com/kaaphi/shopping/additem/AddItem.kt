@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.EditText
 import com.kaaphi.shopping.R
 import android.support.v4.app.NavUtils
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.WindowManager
@@ -31,8 +33,23 @@ class AddItem : AppCompatActivity() {
 
         editText.addTextChangedListener(ButtonEnableTextWatcher())
 
-        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        val viewManager = LinearLayoutManager(this)
+        val viewAdapter = AddItemListAdapter(this::itemSelected)
 
+        val recyclerView = findViewById<RecyclerView>(R.id.item_list).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManager
+
+            // specify an viewAdapter (see also next example)
+            adapter = viewAdapter
+
+        }
+
+        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         editText.requestFocus()
     }
 
@@ -50,8 +67,11 @@ class AddItem : AppCompatActivity() {
     fun addItem(view : View) {
         val editText = findViewById<EditText>(R.id.itemName)
         val itemName = editText.text.toString()
-        val item = ListItem(itemName)
 
+        itemSelected(ListItem(itemName))
+    }
+
+    private fun itemSelected(item : ListItem) {
         val intent = Intent()
 
         intent.putExtra(ITEM_KEY, item as Parcelable)

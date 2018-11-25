@@ -24,9 +24,7 @@ const val ADD_ITEM_REQUEST  = 0;
 class MainActivity : AppCompatActivity(), StartDragListener {
     private lateinit var persister: ShoppingListPersister
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: ShoppingListTouchHelperAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var touchHelper : ItemTouchHelper
     private lateinit var shoppingList : ShoppingList
 
@@ -41,7 +39,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
 
         persister = ShoppingListPersister(applicationContext)
 
-        viewManager = LinearLayoutManager(this)
+        val viewManager = LinearLayoutManager(this)
         viewAdapter = ShoppingListTouchHelperAdapter(this)
 
         object : PersistenceAsyncTask<Void, ShoppingList>(applicationContext, {args -> persister.loadList("Default List")}) {
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
             }
         }.execute()
 
-        recyclerView = findViewById<RecyclerView>(R.id.shopping_list_view).apply {
+        val recyclerView = findViewById<RecyclerView>(R.id.shopping_list_view).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
