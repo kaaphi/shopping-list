@@ -12,8 +12,12 @@ import com.kaaphi.shopping.list.ListItemView
 import com.kaaphi.shopping.list.ShoppingList
 import java.util.*
 
-class MyAdapter(private val shoppingList: ShoppingList, private val dragListener: StartDragListener) :
+class MyAdapter(
+    private val dragListener: StartDragListener
+) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>(), ItemTouchHelperAdapter {
+
+    private var shoppingList: ShoppingList = ShoppingList("empty")
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(shoppingList.items, fromPosition, toPosition)
@@ -23,6 +27,11 @@ class MyAdapter(private val shoppingList: ShoppingList, private val dragListener
     override fun onItemSwipe(position: Int) {
         shoppingList.items.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun setShoppingList(list : ShoppingList) {
+        shoppingList = list
+        notifyDataSetChanged()
     }
 
     // Provide a reference to the views for each data item

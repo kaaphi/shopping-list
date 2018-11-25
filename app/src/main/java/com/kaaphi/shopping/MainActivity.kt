@@ -20,6 +20,8 @@ const val ADD_ITEM_REQUEST  = 0;
 
 @ImplicitReflectionSerializer
 class MainActivity : AppCompatActivity(), StartDragListener {
+    private lateinit var persister: ShoppingListPersister
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -35,10 +37,25 @@ class MainActivity : AppCompatActivity(), StartDragListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        shoppingList = ShoppingListPersister.loadList(applicationContext, "Default List")
+        persister = ShoppingListPersister(applicationContext)
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(shoppingList, this)
+        viewAdapter = MyAdapter(this)
+
+        object : PersistenceAsyncTask<Void, ShoppingList>(applicationContext, {args -> persister.loadList("Default List")}) {
+            override fun onResult(result: ShoppingList) {
+                shoppingList = result
+                viewAdapter.setShoppingList(result)
+
+                viewAdapter.registerAdapterDataObserver(object : AllChangesAdapterDataObserver() {
+                    override fun onChanged() {
+                        Log.i("onChanged", "changed!")
+
+                        persister.save(shoppingList)
+                    }
+                })
+            }
+        }.execute()
 
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -53,12 +70,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
 
         }
 
-        viewAdapter.registerAdapterDataObserver(object : AllChangesAdapterDataObserver() {
-            override fun onChanged() {
-                Log.i("onChanged", "changed!")
-                ShoppingListPersister.save(applicationContext, shoppingList)
-            }
-        })
+
 
         val callback = SimpleItemTouchHelperCallback(viewAdapter)
         touchHelper = ItemTouchHelper(callback)

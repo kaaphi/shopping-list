@@ -9,8 +9,10 @@ import kotlinx.serialization.load
 import java.io.*
 
 @ImplicitReflectionSerializer
-object ShoppingListPersister {
-    fun save(context : Context, list : ShoppingList) {
+class ShoppingListPersister(
+    val context : Context
+) {
+    fun save(list : ShoppingList) {
         val shoppingListFile = File(listDir(context), listFileName(list.name))
 
         val bytes = CBOR.dump(list)
@@ -21,7 +23,7 @@ object ShoppingListPersister {
         }
     }
 
-    fun loadList(context : Context, listName : String) : ShoppingList {
+    fun loadList(listName : String) : ShoppingList {
         val shoppingListFile = File(listDir(context), listFileName(listName))
         return if(shoppingListFile.exists()) {
             try {
@@ -35,7 +37,7 @@ object ShoppingListPersister {
         }
     }
 
-    fun loadAll(context : Context) : List<ShoppingList> {
+    fun loadAll() : List<ShoppingList> {
         return listDir(context).listFiles()
             .map(this::loadList)
     }
