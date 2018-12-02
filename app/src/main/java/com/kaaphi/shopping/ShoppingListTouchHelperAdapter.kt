@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Paint
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.text.InputType
 import android.view.*
 import android.widget.*
@@ -16,7 +16,7 @@ import java.util.*
 class ShoppingListTouchHelperAdapter(
     private val dragListener: StartDragListener
 ) :
-    RecyclerView.Adapter<ShoppingListTouchHelperAdapter.MyViewHolder>(), ItemTouchHelperAdapter {
+    androidx.recyclerview.widget.RecyclerView.Adapter<ShoppingListTouchHelperAdapter.MyViewHolder>(), ItemTouchHelperAdapter {
 
     private var shoppingList: ShoppingList = ShoppingList("empty")
 
@@ -39,7 +39,7 @@ class ShoppingListTouchHelperAdapter(
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
     // Each data item is just a string in this case that is shown in a TextView.
-    class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class MyViewHolder(val view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val textView : CheckBox = view.findViewById<CheckBox>(R.id.textView)
         val handle : ImageView = view.findViewById<ImageView>(R.id.handle)
         val editButton : ImageButton = view.findViewById<ImageButton>(R.id.editItem)

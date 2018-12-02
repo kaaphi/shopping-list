@@ -2,16 +2,16 @@ package com.kaaphi.shopping.additem
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import com.kaaphi.shopping.R
-import android.support.v4.app.NavUtils
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.app.NavUtils
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.WindowManager
@@ -33,10 +33,10 @@ class AddItem : AppCompatActivity() {
 
         editText.addTextChangedListener(ButtonEnableTextWatcher())
 
-        val viewManager = LinearLayoutManager(this)
+        val viewManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         val viewAdapter = AddItemListAdapter(this::itemSelected)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.item_list).apply {
+        val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.item_list).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)

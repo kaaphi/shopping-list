@@ -1,8 +1,8 @@
 package com.kaaphi.shopping
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
-open class AllChangesAdapterDataObserver : RecyclerView.AdapterDataObserver() {
+open class AllChangesAdapterDataObserver : androidx.recyclerview.widget.RecyclerView.AdapterDataObserver() {
     override fun onChanged() {
 
     }

@@ -2,11 +2,11 @@ package com.kaaphi.shopping
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.util.Log
 import android.view.View
 import com.kaaphi.shopping.additem.AddItem
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
 
         persister = ShoppingListPersister(applicationContext)
 
-        val viewManager = LinearLayoutManager(this)
+        val viewManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         viewAdapter = ShoppingListTouchHelperAdapter(this)
 
         object : PersistenceAsyncTask<Void, ShoppingList>(applicationContext, {args -> persister.loadList("Default List")}) {
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
             }
         }.execute()
 
-        val recyclerView = findViewById<RecyclerView>(R.id.shopping_list_view).apply {
+        val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.shopping_list_view).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(), StartDragListener {
         }
     }
 
-    override fun requestDrag(viewHolder: RecyclerView.ViewHolder) {
+    override fun requestDrag(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
         touchHelper.startDrag(viewHolder)
     }
 }

@@ -2,7 +2,7 @@ package com.kaaphi.shopping.additem
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import com.kaaphi.shopping.list.ListItem
 class AddItemListAdapter(
     private val itemSelected : (item : ListItem) -> Unit
 ) :
-    RecyclerView.Adapter<AddItemListAdapter.MyViewHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<AddItemListAdapter.MyViewHolder>() {
 
     private val items = emptyList<ListItem>().toMutableList()/*CharRange('A','Z')
         .shuffled()
@@ -59,7 +59,7 @@ class AddItemListAdapter(
         }
     }
 
-    class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class MyViewHolder(val view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val textView : TextView = view.findViewById<TextView>(R.id.listItemTextView)
     }
 }

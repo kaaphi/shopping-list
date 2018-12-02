@@ -1,7 +1,7 @@
 package com.kaaphi.shopping.recycleview
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 interface StartDragListener {
-    fun requestDrag(viewHolder: RecyclerView.ViewHolder)
+    fun requestDrag(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder)
 }
